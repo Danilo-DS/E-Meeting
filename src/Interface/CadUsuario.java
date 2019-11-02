@@ -6,9 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
-
 import Dados.CadastroC;
 import Dados.CadastroU;
 
@@ -27,12 +25,12 @@ public class CadUsuario extends JFrame implements ActionListener {
 	JButton Cadastrar = new JButton("Cadastrar");		
 	JButton Limpar = new JButton("Limpar");
 	
-	@SuppressWarnings("rawtypes")
-	JComboBox cat = new JComboBox();
-	@SuppressWarnings("rawtypes")
-	JComboBox setor = new JComboBox();
+	@SuppressWarnings("rawtypes")//Analisar
+	JComboBox Cat = new JComboBox();
+	@SuppressWarnings("rawtypes")//Analisar
+	JComboBox Setor = new JComboBox();
 	
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings("unchecked")//Analisar
 	public CadUsuario() {
 				
 		setTitle("E-Meeting Cadastro");
@@ -68,22 +66,24 @@ public class CadUsuario extends JFrame implements ActionListener {
 		ConfigT(Linha,1);
 		add(newDiscricao("Catergoria"),gbl);
 		ConfigT(Coluna,1);
-		cat.addItem("Usuário");
-		cat.addItem("Coordenador");
-		cat.addItem("Gestor de Recursos");
-		add(cat,gbl);
-		cat.addActionListener(new ActionListener() {
+		Cat.addItem("Usuário");
+		Cat.addItem("Coordenador");
+		Cat.addItem("Gestor de Recursos");
+		add(Cat,gbl);
+		Cat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (cat.getSelectedIndex() == 1) {
-					setor.setEnabled(true);
+				if (Cat.getSelectedIndex() == 1) {
+					Setor.setEnabled(true);
+					Cadastrar.setEnabled(true);
 				}
-				else if(cat.getSelectedIndex() == 2) {
-					JOptionPane.showMessageDialog(null, "Em Desenvolvimento");
-					setor.setEnabled(false);
+				else if(Cat.getSelectedIndex() == 2) {
+					JOptionPane.showMessageDialog(null, "Keep Calm, is under  Developments");
+					Setor.setEnabled(false);
 					Cadastrar.setEnabled(false);
 				}
 				else {
-					setor.setEnabled(false);
+					Cadastrar.setEnabled(true);
+					Setor.setEnabled(false);
 				}
 			}
 		});
@@ -92,14 +92,14 @@ public class CadUsuario extends JFrame implements ActionListener {
 		ConfigT(Linha, 1);
 		add(newDiscricao("Setor"),gbl);
 		ConfigT(Coluna,1);
-		setor.addItem("Financeiro");
-		setor.addItem("Logistico");
-		setor.addItem("Recuros Humanos");
-		setor.addItem("Manutenção");
-		setor.addItem("Limpeza");
-		setor.addItem("Administrativo");
-		setor.setEnabled(false);
-		add(setor,gbl);
+		Setor.addItem("Financeiro");
+		Setor.addItem("Logistico");
+		Setor.addItem("Recuros Humanos");
+		Setor.addItem("Manutenção");
+		Setor.addItem("Limpeza");
+		Setor.addItem("Administrativo");
+		Setor.setEnabled(false);
+		add(Setor,gbl);
 		
 		//Login
 		ConfigT(Linha,1);
@@ -148,13 +148,13 @@ public class CadUsuario extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == Cadastrar) {
 		
-			if (cat.getSelectedIndex() == 1) {
+			if (Cat.getSelectedIndex() == 1) {
 								
 				CadastroC c = new CadastroC();		
 				c.setNome(Nome.getText());
 				c.setDtContrato(dtContratacao.getText());
 				c.setTelefone(Tel.getText());
-				c.setSetor(String.valueOf(setor.getSelectedItem()));
+				c.setSetor(String.valueOf(Setor.getSelectedItem()));
 				c.setLogin(Login.getText());
 				c.setPassword(Password.getText());
 						
@@ -163,11 +163,12 @@ public class CadUsuario extends JFrame implements ActionListener {
 				Nome.setText("");
 				dtContratacao.setText("");
 				Tel.setText("");
+				Setor.setSelectedIndex(0);
 				Login.setText("");
 				Password.setText("");
 				
-			}else if (cat.getSelectedIndex() == 2) {
-				//
+			}else if (Cat.getSelectedIndex() == 2) {
+				//JOptionPane.showMessageDialog(null, "Keep Calm, is under  Developments");
 			}
 			else{
 				CadastroU u = new CadastroU();

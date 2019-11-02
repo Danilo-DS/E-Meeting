@@ -73,7 +73,7 @@ public class CadastroU {
 			armazenar.println("Password: " + this.Password);
 			armazenar.flush(); //perda de dados
 			armazenar.close();
-			JOptionPane.showMessageDialog(null, "Cadastro Realizado com Sucesso", "Sucesso", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(null, "Cadastro Realizado com Sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 			
 		}
 		catch (IOException e){

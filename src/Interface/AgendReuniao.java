@@ -1,11 +1,13 @@
 package Interface;
 
 import java.awt.event.ActionListener;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
+import Dados.AgendaReuniao;
 
 public class AgendReuniao extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
@@ -17,11 +19,13 @@ public class AgendReuniao extends JFrame implements ActionListener{
 	JTextField dtAgendamento = new JTextField(15);
 	JTextField dtReuniao = new JTextField(15);
 	JTextField TAssunto = new JTextField(30);
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("rawtypes")//Analisar
 	JComboBox SetorR = new JComboBox();
-	JTextArea AP = new JTextArea(); 
+	JTextArea AP = new JTextArea();
+	JButton Salvar = new JButton("Agendar");
+	JButton Limpar = new JButton("Limpar");
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")//Analisar
 	public AgendReuniao(){
 		
 		setTitle("E-Meeting Agendar Reunião");
@@ -32,39 +36,48 @@ public class AgendReuniao extends JFrame implements ActionListener{
 		setVisible(true);
 		
 		gbl = new GridBagConstraints();
-		gbl.anchor = GridBagConstraints.WEST;
 		gbl.insets = new Insets(10,10,10,10);
+		gbl.anchor = GridBagConstraints.WEST;
+		
 		
 		//Data de Agendamento
 		ConfigT(Linha,1);
 		add(newDiscricao("Data de Agendamento"),gbl);
 		ConfigT(Coluna,1);
-		add(dtAgendamento);
+		add(dtAgendamento, gbl);
 		
 		//Data da Reunião
 		ConfigT(Linha,1);
 		add(newDiscricao("Data da Reunião"),gbl);
 		ConfigT(Coluna,1);
-		add(dtReuniao);
+		add(dtReuniao, gbl);
 		
 		//Assunto da Reunião
 		ConfigT(Linha,1);
 		add(newDiscricao("Assunto da Reunião"),gbl);
 		ConfigT(Coluna,1);
-		add(TAssunto);
+		add(TAssunto, gbl);
 		
 		//Setor que será reunido
 		ConfigT(Linha,1);
-		add(newDiscricao("A reunião vai ser para qual Setor?"),gbl);
+		add(newDiscricao("Qual Setor?"),gbl);
 		SetorR.addItem("Financeiro");
 		ConfigT(Coluna,1);
-		add(SetorR);
+		add(SetorR, gbl);
 		
 		//Palta / Ata
 		ConfigT(Linha,1);
-		add(newDiscricao("A reunião vai ser para qual Setor?"),gbl);
+		add(newDiscricao("Ata / Pauta da Reunião"),gbl);
 		ConfigT(Coluna,1);
-		add(AP);
+		AP.setPreferredSize(new Dimension(500,100));
+		add(AP, gbl);
+		
+		ConfigT(Linha,1);
+		Salvar.addActionListener(this);
+		add(Salvar,gbl);
+		ConfigT(Coluna,1);
+		Limpar.addActionListener(this);
+		add(Limpar,gbl);
 		
 	}
 	
@@ -81,16 +94,38 @@ public class AgendReuniao extends JFrame implements ActionListener{
 	 */
 	public void ConfigT(int posicao, int qtdeL) {
 		if (posicao == Linha) {
-			gbl.gridx = gbl.gridx + 1;
-			gbl.gridy = 0;
+			gbl.gridy = gbl.gridy + 1;
+			gbl.gridx = 0;
 		}
 		else {
-			gbl.gridy = gbl.gridy + 1;
+			gbl.gridx = gbl.gridx + 1;
 		}
 		gbl.gridwidth = qtdeL;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		
+		if (e.getSource() == Salvar) {
+			AgendaReuniao ar = new AgendaReuniao();
+			ar.setDtAgentamento(dtAgendamento.getText());
+			ar.setDtReuniao(dtReuniao.getText());
+			ar.setAssunto(TAssunto.getText());
+			ar.setSetor(String.valueOf(SetorR.getSelectedItem()));
+			ar.setAP(AP.getText());
+			
+			ar.gravarDadosR();
+			
+			dtAgendamento.setText("");
+			dtReuniao.setText("");
+			TAssunto.setText("");
+			SetorR.setSelectedItem(0);
+			AP.setText("");
+		}
+		else {
+			dtAgendamento.setText("");
+			dtReuniao.setText("");
+			TAssunto.setText("");
+			SetorR.setSelectedItem(0);
+			AP.setText("");
+		}
 	}
 }
