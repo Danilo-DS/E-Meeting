@@ -17,6 +17,7 @@ public class CadUsuario extends JFrame implements ActionListener {
 	private int Coluna = 1;
 	GridBagConstraints gbl = null;
 	
+	//Campos
 	JTextField Nome = new JTextField(30);
 	JTextField dtContratacao = new JTextField(10);
 	JTextField Tel = new JTextField(15);
@@ -25,12 +26,10 @@ public class CadUsuario extends JFrame implements ActionListener {
 	JButton Cadastrar = new JButton("Cadastrar");		
 	JButton Limpar = new JButton("Limpar");
 	
-	@SuppressWarnings("rawtypes")//Analisar
-	JComboBox Cat = new JComboBox();
-	@SuppressWarnings("rawtypes")//Analisar
-	JComboBox Setor = new JComboBox();
+	//Categoria(Cat)/Setores
+	JComboBox<String> Cat = new JComboBox<String>();
+	JComboBox<String> Setor = new JComboBox<String>();
 	
-	@SuppressWarnings("unchecked")//Analisar
 	public CadUsuario() {
 				
 		setTitle("E-Meeting Cadastro");
@@ -153,6 +152,7 @@ public class CadUsuario extends JFrame implements ActionListener {
 				CadastroC c = new CadastroC();		
 				c.setNome(Nome.getText());
 				c.setDtContrato(dtContratacao.getText());
+				c.setTipoUsuario(String.valueOf(Cat.getSelectedItem()));
 				c.setTelefone(Tel.getText());
 				c.setSetor(String.valueOf(Setor.getSelectedItem()));
 				c.setLogin(Login.getText());
@@ -174,6 +174,7 @@ public class CadUsuario extends JFrame implements ActionListener {
 				CadastroU u = new CadastroU();
 				u.setNome(Nome.getText());
 				u.setDtContrato(dtContratacao.getText());
+				u.setTipoUsuario(String.valueOf(Cat.getSelectedItem()));
 				u.setTelefone(Tel.getText());
 				u.setLogin(Login.getText());
 				u.setPassword(Password.getText());

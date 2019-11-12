@@ -9,8 +9,8 @@ import javax.swing.JOptionPane;
 public class CadastroC extends CadastroU {
 	private String setor;
 
-	public CadastroC(String nome, String dtContrato, String telefone, String login, String password, String setor) {
-		super(nome, dtContrato, telefone, login, password);
+	public CadastroC(String nome, String dtContrato, String TUsuario, String telefone, String login, String password, String setor) {
+		super(nome, dtContrato, TUsuario, telefone, login, password);
 		this.setor = setor;
 	}
 
@@ -29,22 +29,24 @@ public class CadastroC extends CadastroU {
 	}
 	
 	public void gravarDadosC() {
+		
 		try {						
-			String NmArq = "Coordenador" + getLogin();
+			String NmArq = getLogin();
 			
 			FileWriter caminho = new FileWriter("/home/ds/Documents/C Users/"+NmArq+".txt");
 			PrintWriter armazenar = new PrintWriter(caminho);
 			
-			armazenar.println("Password: " + getNome());
+			armazenar.println("Nome: " + getNome());
 			armazenar.println("Data de Contratação: " + getDtContrato());
 			armazenar.println("Telefone: " + getTelefone());
-			armazenar.println("Setor: " + this.setor);
 			armazenar.println("Login: " + getLogin());
 			armazenar.println("Password: " + getPassword());
-			
-			armazenar.flush();
+			armazenar.println("Tipo: " + getTipoUsuario());
+			armazenar.println("Setor: " + setor);
+			armazenar.flush();//perda de dados
 			armazenar.close();
-			JOptionPane.showMessageDialog(null, "Cadastro Realizado com Sucesso", "Sucesso", JOptionPane.OK_OPTION);
+			
+			JOptionPane.showMessageDialog(null, "Cadastro Realizado com Sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 			
 		}
 		catch (IOException e){

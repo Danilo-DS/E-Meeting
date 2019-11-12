@@ -92,6 +92,7 @@ public class WinLogin extends JFrame implements ActionListener{
 			//setVisible(false);
 			CadUsuario cad = new CadUsuario();
 			cad.Run();
+			cad.Cat.setEnabled(false);
 		}
 	}
 }

@@ -10,13 +10,14 @@ public class CadastroU {
 	
 	private String Nome;
 	private String dtContrato;
-	//private String Cargo;
+	private String TipoUsuario;
 	private String Telefone;
 	private String Login;
 	private String Password;
-	public CadastroU(String nome, String dtContrato, String telefone, String login, String password) {
+	public CadastroU(String nome, String dtContrato, String TUsuario, String telefone, String login, String password) {
 		Nome = nome;
 		this.dtContrato = dtContrato;
+		TipoUsuario = TUsuario;
 		Telefone = telefone;
 		Login = login;
 		Password = password;
@@ -33,6 +34,12 @@ public class CadastroU {
 	}
 	public void setDtContrato(String dtContrato) {
 		this.dtContrato = dtContrato;
+	}
+	public String getTipoUsuario() {
+		return TipoUsuario;
+	}
+	public void setTipoUsuario(String tipoUsuario) {
+		TipoUsuario = tipoUsuario;
 	}
 	public String getTelefone() {
 		return Telefone;
@@ -52,16 +59,11 @@ public class CadastroU {
 	public void setPassword(String password) {
 		Password = password;
 	}
-	//@Override
-	//public String toString() {
-	//	return "Nome " + Nome + "%n" + "Data de Contratação " + dtContrato +
-	//			"%n" + /*"Cargo " + Cargo + "%n" +*/ "Telefone " + Telefone +
-	//			"%n" + "Login " + Login + "%nPassword" + Password + "%n";
-	//}
 	
 	public void gravarDadosU() {
+		
 		try {						
-			String NmArq = "Usuario: " + Login;
+			String NmArq = Login;
 			
 			FileWriter caminho = new FileWriter("/home/ds/Documents/C Users/"+NmArq+".txt");
 			PrintWriter armazenar = new PrintWriter(caminho);
@@ -71,6 +73,7 @@ public class CadastroU {
 			armazenar.println("Telefone: " + this.Telefone);
 			armazenar.println("Login: " + this.Login);
 			armazenar.println("Password: " + this.Password);
+			armazenar.println("Tipo: " + TipoUsuario);
 			armazenar.flush(); //perda de dados
 			armazenar.close();
 			JOptionPane.showMessageDialog(null, "Cadastro Realizado com Sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);

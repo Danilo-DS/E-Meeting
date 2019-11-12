@@ -19,13 +19,16 @@ public class AgendReuniao extends JFrame implements ActionListener{
 	JTextField dtAgendamento = new JTextField(15);
 	JTextField dtReuniao = new JTextField(15);
 	JTextField TAssunto = new JTextField(30);
-	@SuppressWarnings("rawtypes")//Analisar
-	JComboBox SetorR = new JComboBox();
+
+	JComboBox<String> SetorR = new JComboBox<String>();
+	JComboBox<String> Salas = new JComboBox<String>();
+	
 	JTextArea AP = new JTextArea();
+	
 	JButton Salvar = new JButton("Agendar");
 	JButton Limpar = new JButton("Limpar");
 	
-	@SuppressWarnings("unchecked")//Analisar
+
 	public AgendReuniao(){
 		
 		setTitle("E-Meeting Agendar Reunião");
@@ -64,6 +67,18 @@ public class AgendReuniao extends JFrame implements ActionListener{
 		SetorR.addItem("Financeiro");
 		ConfigT(Coluna,1);
 		add(SetorR, gbl);
+		
+		//Sala á ser Usada
+		ConfigT(Linha, 1);
+		add(newDiscricao("Escolha a Sala: "), gbl);
+		Salas.addItem("Sala 1");
+		Salas.addItem("Sala 2");
+		Salas.addItem("Sala 3");
+		Salas.addItem("Sala 4");
+		Salas.addItem("Sala 5");
+		ConfigT(Coluna, 1);
+		add(Salas, gbl);
+		
 		
 		//Palta / Ata
 		ConfigT(Linha,1);

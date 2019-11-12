@@ -2,8 +2,13 @@ package Interface;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -28,7 +33,8 @@ public class Home extends JFrame implements ActionListener{
 	JMenu DiscMenuCon = new JMenu("Pesquisar");
 	JMenuItem PesquisarR = new JMenuItem("Buscar Reunião");
 	//JMenuItem PesquisarU;
-	
+			
+		
 	public Home() {
 			
 		setTitle("E-Meeting Home");
@@ -53,15 +59,39 @@ public class Home extends JFrame implements ActionListener{
 		
 		
 		//Menu (Consulta)
-		
 		DiscMenuCon.add(PesquisarR);
 		PesquisarR.addActionListener(this);
 		//DiscMenuCon.add(PesquisarU);
 		
+		//Adionando os Menu a Frame
 		Menu.add(Perfil);
 		Menu.add(DiscMenuCad);
 		Menu.add(DiscMenuCon);
+		
+		
+		//add(RList);
+		
 	}
+	
+	@SuppressWarnings("null")
+	public void CarregaFeed() {
+		String[] Reunioes = null;
+		try {
+			BufferedReader b = new BufferedReader(new InputStreamReader(new FileInputStream("/home/ds/Documents/C Reunioes/FeedInicial.txt")));
+			String ler = null;
+			while (b.ready()) {
+				for (int i = 0; i < ler.length(); i++ )
+					Reunioes[i] = b.readLine();
+			}
+		}
+		catch(IOException e) {
+			
+		}
+		
+		JList<String> RList = new JList<String>(Reunioes);
+		RList.setBounds(250, 100, 200, 400);
+	}
+	
 	
 	public void Run() {	}
 	
@@ -81,7 +111,7 @@ public class Home extends JFrame implements ActionListener{
 			JOptionPane.showMessageDialog(null, "Keep Calm, is under Developments ");
 		}
 		else {
-				JOptionPane.showMessageDialog(null, "Keep Calm, is under Developments ");
+			JOptionPane.showMessageDialog(null, "Keep Calm, is under Developments ");
 		}
 	}
 
