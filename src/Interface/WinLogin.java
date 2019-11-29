@@ -3,6 +3,8 @@ package Interface;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+
 import javax.swing.*;
 
 public class WinLogin extends JFrame implements ActionListener{
@@ -23,7 +25,7 @@ public class WinLogin extends JFrame implements ActionListener{
 	
 	//TextField
 	JTextField tLogin = new JTextField(15);
-	JTextField tPass = new JTextField(20);
+	JPasswordField tPass = new JPasswordField(15);
 	
 	//Button
 	JButton bLogin = new JButton("Login");
@@ -54,8 +56,9 @@ public class WinLogin extends JFrame implements ActionListener{
 		setTitle("e-Meeting Login");
 		setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 		setResizable(false);
-		BackGround("/home/ds/Documents/Image/pdf.jpg");
+		BackGround("./Dados/Image/Login.jpg");
 		setSize(500,450);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -75,24 +78,33 @@ public class WinLogin extends JFrame implements ActionListener{
 		add(bCadastro);
 	}
 	public void Run() {	}
+	
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource() == bLogin) {
-			//JOptionPane.showMessageDialog(null, "Keep Calm", "Wait", JOptionPane.PLAIN_MESSAGE);		
+
 			Validador v = new Validador();
 			v.setLogin(tLogin.getText());
-			v.setPassword(tPass.getText());
+			v.setPassword(tPass.getPassword());
 			
+			v.CriarPerfil();
 			v.VLogin();
+			
+			tPass.setText("");
+	
 		}
 		else if (e.getSource() == bEsqueci) {
 			JOptionPane.showMessageDialog(null, "Keep Calm","Wait" , JOptionPane.PLAIN_MESSAGE);
 		}
 		else {
-			//setVisible(false);
-			CadUsuario cad = new CadUsuario();
-			cad.Run();
-			cad.Cat.setEnabled(false);
+			try {
+				CadUsuario cad = new CadUsuario();
+				cad.Run();
+				cad.Cat.setEnabled(false);
+			}
+			catch (ParseException exp) {
+				JOptionPane.showMessageDialog(null, "Preencha as Datas Corretamente DD/MM/YYYY", "Aviso", JOptionPane.WARNING_MESSAGE);
+			}
 		}
 	}
 }

@@ -1,13 +1,25 @@
 package Interface;
 
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+import java.text.ParseException;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
+
 import Dados.CadastroC;
+import Dados.CadastroGR;
 import Dados.CadastroU;
 
 public class CadUsuario extends JFrame implements ActionListener {
@@ -19,18 +31,19 @@ public class CadUsuario extends JFrame implements ActionListener {
 	
 	//Campos
 	JTextField Nome = new JTextField(30);
-	JTextField dtContratacao = new JTextField(10);
-	JTextField Tel = new JTextField(15);
+	JFormattedTextField dtContratacao = new JFormattedTextField(new MaskFormatter("##/##/####"));
+	JFormattedTextField Tel = new JFormattedTextField(new MaskFormatter("(##) # ####-####"));
 	JTextField Login = new JTextField(30);
-	JTextField Password = new JTextField(30);
+	JPasswordField Password = new JPasswordField(30);
 	JButton Cadastrar = new JButton("Cadastrar");		
 	JButton Limpar = new JButton("Limpar");
 	
 	//Categoria(Cat)/Setores
 	JComboBox<String> Cat = new JComboBox<String>();
 	JComboBox<String> Setor = new JComboBox<String>();
+	JComboBox<String> Turno = new JComboBox<String>();
 	
-	public CadUsuario() {
+	public CadUsuario() throws ParseException{
 				
 		setTitle("E-Meeting Cadastro");
 		setLayout(new GridBagLayout());
@@ -53,12 +66,14 @@ public class CadUsuario extends JFrame implements ActionListener {
 		ConfigT(Linha,1);
 		add(newDiscricao("*Data de Contratação"),gbl);
 		ConfigT(Coluna,1);
+		dtContratacao.setPreferredSize(new Dimension(80, 25));
 		add(dtContratacao,gbl);
 		
 		//Telefone
 		ConfigT(Linha,1);
 		add(newDiscricao("*Telefone"),gbl);
 		ConfigT(Coluna,1);
+		Tel.setPreferredSize(new Dimension(80, 25));
 		add(Tel,gbl);
 		
 		//Categoria
@@ -73,16 +88,15 @@ public class CadUsuario extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent arg0) {
 				if (Cat.getSelectedIndex() == 1) {
 					Setor.setEnabled(true);
-					Cadastrar.setEnabled(true);
+					Turno.setEnabled(false);
 				}
 				else if(Cat.getSelectedIndex() == 2) {
-					JOptionPane.showMessageDialog(null, "Keep Calm, is under  Developments");
 					Setor.setEnabled(false);
-					Cadastrar.setEnabled(false);
+					Turno.setEnabled(true);					
 				}
 				else {
-					Cadastrar.setEnabled(true);
 					Setor.setEnabled(false);
+					Turno.setEnabled(false);
 				}
 			}
 		});
@@ -99,6 +113,15 @@ public class CadUsuario extends JFrame implements ActionListener {
 		Setor.addItem("Administrativo");
 		Setor.setEnabled(false);
 		add(Setor,gbl);
+		
+		//Turno
+		ConfigT(Linha,1);
+		add(newDiscricao("Turno"),gbl);
+		ConfigT(Coluna,1);
+		Turno.addItem("Manhã");
+		Turno.addItem("Tarde");
+		Turno.setEnabled(false);
+		add(Turno, gbl);
 		
 		//Login
 		ConfigT(Linha,1);
@@ -146,48 +169,77 @@ public class CadUsuario extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == Cadastrar) {
-		
+						
 			if (Cat.getSelectedIndex() == 1) {
-								
+												
 				CadastroC c = new CadastroC();		
 				c.setNome(Nome.getText());
 				c.setDtContrato(dtContratacao.getText());
-				c.setTipoUsuario(String.valueOf(Cat.getSelectedItem()));
 				c.setTelefone(Tel.getText());
+				c.setTipoUsuario(String.valueOf(Cat.getSelectedItem()));
 				c.setSetor(String.valueOf(Setor.getSelectedItem()));
 				c.setLogin(Login.getText());
-				c.setPassword(Password.getText());
+				c.setPassword(Password.getPassword());
 						
 				c.gravarDadosC();
 				
 				Nome.setText("");
 				dtContratacao.setText("");
 				Tel.setText("");
+				Cat.setSelectedIndex(0);
 				Setor.setSelectedIndex(0);
+				Turno.setSelectedIndex(0);
 				Login.setText("");
 				Password.setText("");
 				
-			}else if (Cat.getSelectedIndex() == 2) {
-				//JOptionPane.showMessageDialog(null, "Keep Calm, is under  Developments");
+			}
+			else if (Cat.getSelectedIndex() == 2) {
+				
+				CadastroGR gr = new CadastroGR();
+				
+				gr.setNome(Nome.getText());
+				gr.setDtContrato(dtContratacao.getText());
+				gr.setTelefone(Tel.getText());
+				gr.setTipoUsuario(String.valueOf(Cat.getSelectedItem()));
+				gr.setLogin(Login.getText());
+				gr.setPassword(Password.getPassword());
+				gr.setTurno(String.valueOf(Turno.getSelectedItem()));
+				
+				gr.gravarDadosGR();
+				
+				Nome.setText("");
+				dtContratacao.setText("");
+				Tel.setText("");
+				Cat.setSelectedIndex(0);
+				Setor.setSelectedIndex(0);
+				Turno.setSelectedIndex(0);
+				Login.setText("");
+				Password.setText("");
+				
 			}
 			else{
 				CadastroU u = new CadastroU();
 				u.setNome(Nome.getText());
 				u.setDtContrato(dtContratacao.getText());
-				u.setTipoUsuario(String.valueOf(Cat.getSelectedItem()));
 				u.setTelefone(Tel.getText());
+				u.setTipoUsuario(String.valueOf(Cat.getSelectedItem()));
 				u.setLogin(Login.getText());
-				u.setPassword(Password.getText());
+				u.setPassword(Password.getPassword());
 						
 				u.gravarDadosU();
+				//Validador v = new Validador();
+				//v.ValidarL(String.valueOf(Cat.getSelectedItem()));
+				
 				
 				Nome.setText("");
 				dtContratacao.setText("");
 				Tel.setText("");
+				Cat.setSelectedIndex(0);
+				Setor.setSelectedIndex(0);
+				Turno.setSelectedIndex(0);
 				Login.setText("");
 				Password.setText("");
 			}
-			
 		}
 		else {
 			Nome.setText("");
@@ -197,9 +249,6 @@ public class CadUsuario extends JFrame implements ActionListener {
 			Password.setText("");
 					
 		}
-		/*setDefaultCloseOperation(EXIT_ON_CLOSE);
-		WinLogin wl = new WinLogin();
-		wl.setVisible(true);*/
-		}
+	}
 }
 

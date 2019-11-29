@@ -16,9 +16,9 @@ public class CadastroGR extends CadastroU{
 	
 	private String Turno;
 
-	public CadastroGR(String nome, String dtContrato, String TUsuario, String telefone, String login, String password,
+	public CadastroGR(String nome, String dtContrato, String telefone, String TUsuario, String login, char[] password,
 			String turno) {
-		super(nome, dtContrato, TUsuario, telefone, login, password);
+		super(nome, dtContrato,  telefone, TUsuario, login, password);
 		Turno = turno;
 	}
 	
@@ -35,17 +35,17 @@ public class CadastroGR extends CadastroU{
 	public void gravarDadosGR() {
 				
 		try {
-			String L = getLogin();
+			String NmArq = getLogin();
 			
-			FileWriter caminho = new FileWriter("/home/ds/Documents/C Users" + L + ".txt");
+			FileWriter caminho = new FileWriter("./Dados/C Users/" +NmArq+ ".txt");
 			PrintWriter armazenar = new PrintWriter(caminho);
 			
 			armazenar.println("Nome: " + getNome());
 			armazenar.println("Data de Contratação : " + getDtContrato());
 			armazenar.println("Telefone: " + getTelefone());
-			armazenar.println("Login: " + getLogin());
-			armazenar.println("Password: " + getPassword());
 			armazenar.println("Tipo: " + getTipoUsuario());
+			armazenar.println("Login: " + getLogin());
+			armazenar.println("Password: " + ConvPass());
 			armazenar.println("Turno: " + Turno);
 			armazenar.flush();//perda de dados
 			armazenar.close();

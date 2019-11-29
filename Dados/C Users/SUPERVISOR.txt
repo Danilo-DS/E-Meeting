@@ -1,0 +1,7 @@
+Nome: SUPERVISOR
+Data de Contratação: 01/01/2000
+Telefone: (83) 9 8866-8729
+Tipo: Coordenador
+Login: SUPERVISOR
+Password: 58059724
+Setor: Administrativo

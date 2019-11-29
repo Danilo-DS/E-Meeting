@@ -2,40 +2,75 @@ package Interface;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.text.ParseException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class Home extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
-	
+		
 	JMenuBar Menu = new JMenuBar();
 	
 	//Menu(Perfil)
 	JMenu Perfil = new JMenu("Perfil");
 	JMenuItem MeuPerfil = new JMenuItem("Ver Perfil");
+	JMenuItem Logoff = new JMenuItem("Logoff");
 	JMenuItem Sair = new JMenuItem("Sair");
 	
 	//Menu(Cadastro)
 	JMenu DiscMenuCad = new JMenu("Cadastro");
 	JMenuItem CadastroU = new JMenuItem("Cadastrar Usuário");
 	JMenuItem CadastroR = new JMenuItem("Cadastrar Reunião");
+	JMenuItem CadastroS = new JMenuItem("Cadastrar Salas");
+	JMenuItem CadastroP = new JMenuItem("Adiconar Participantes");
 	
 	//Menu(Consulta)
 	JMenu DiscMenuCon = new JMenu("Pesquisar");
 	JMenuItem PesquisarR = new JMenuItem("Buscar Reunião");
 	//JMenuItem PesquisarU;
-			
-		
+	
+	//lista / Scroll Pane
+	JList<String> RList = new JList<String>(carregarFeed());
+	JScrollPane barraL = new JScrollPane(RList);
+	
+	//TextArea / Scroll Pane
+	JTextArea feed = new JTextArea();
+	JScrollPane barraT = new JScrollPane(feed);
+	
+	//Botão
+	
+	JButton Participar = new JButton("Participar");
+
 	public Home() {
+		
+		//JList
+		barraL.setBounds(280, 90, 200, 450);
+		
+		//TxArea
+		feed.setEditable(false);
+		feed.setLineWrap(true);
+		barraT.setBounds(490,90,600,450);
+		
+		//Botão
+		Participar.setBounds(980, 550, 110, 25);
+		
 			
 		setTitle("E-Meeting Home");
 		setLayout(null);
@@ -48,6 +83,8 @@ public class Home extends JFrame implements ActionListener{
 		//Menu (Perfil)
 		Perfil.add(MeuPerfil);
 		MeuPerfil.addActionListener(this);
+		Perfil.add(Logoff);
+		Logoff.addActionListener(this);
 		Perfil.add(Sair);
 		Sair.addActionListener(this);
 		
@@ -56,6 +93,10 @@ public class Home extends JFrame implements ActionListener{
 		CadastroU.addActionListener(this);
 		DiscMenuCad.add(CadastroR);
 		CadastroR.addActionListener(this);
+		DiscMenuCad.add(CadastroP);
+		CadastroP.addActionListener(this);
+		DiscMenuCad.add(CadastroS);
+		CadastroS.addActionListener(this);
 		
 		
 		//Menu (Consulta)
@@ -68,54 +109,136 @@ public class Home extends JFrame implements ActionListener{
 		Menu.add(DiscMenuCad);
 		Menu.add(DiscMenuCon);
 		
+		//lista
+		add(barraL);
+		RList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		RList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				VerFeed();				
+			}
+		});
 		
-		//add(RList);
+		//TxArea
+		add(barraT);
 		
+		//Botão
+		add(Participar);
+		
+		//Evento de Fechamento de Tela
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent we) {
+				WinLogin w = new WinLogin();
+				w.Run();
+			}
+		});
 	}
 	
-	@SuppressWarnings("null")
-	public void CarregaFeed() {
-		String[] Reunioes = null;
-		try {
-			BufferedReader b = new BufferedReader(new InputStreamReader(new FileInputStream("/home/ds/Documents/C Reunioes/FeedInicial.txt")));
-			String ler = null;
-			while (b.ready()) {
-				for (int i = 0; i < ler.length(); i++ )
-					Reunioes[i] = b.readLine();
+	public String[] carregarFeed() {
+		
+		File[] Arquivos;
+		File f = new File("./Dados/C Reunioes/");
+		Arquivos = f.listFiles();
+		String[] lista = new String[Arquivos.length]; 
+		
+		for (int i = 0; i < Arquivos.length; i++) {
+			File arq = Arquivos[i];
+			if(arq.isFile()) {
+				lista[i]= arq.getName().replace(".txt","");
 			}
 		}
-		catch(IOException e) {
-			
-		}
-		
-		JList<String> RList = new JList<String>(Reunioes);
-		RList.setBounds(250, 100, 200, 400);
+		return lista;
 	}
 	
+	public void VerFeed() {
+		feed.setText("");
+		try {
+		String reuniao;
+		BufferedReader ler = new BufferedReader(new FileReader("./Dados/C Reunioes/"+ RList.getSelectedValue() + ".txt"));
+		
+		reuniao = "";
+		
+		while (reuniao != null) {
+			feed.append("	" + reuniao + "\n");
+			reuniao = ler.readLine();		
+		}
+		ler.close();
+		
+	}
+	catch(IOException e) {
+		JOptionPane.showMessageDialog(null, "Error: Carregamento Falhou", "Error", JOptionPane.ERROR_MESSAGE);
+	}
+	}
+	
+	public String CaptP(String n) {
+		String login;
+		login = n;
+		return login;
+	}
 	
 	public void Run() {	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == CadastroU) {
+			dispose();
+			try {
 			CadUsuario cad = new CadUsuario();
 			cad.Run();
+			}
+			catch (ParseException exp) {
+				JOptionPane.showMessageDialog(null, "Preencha a Data Corretamente DD/MM/YYYY", "Aviso", JOptionPane.WARNING_MESSAGE);
+			}
 		}
 		else if (e.getSource() == CadastroR) {
-			AgendReuniao agend = new AgendReuniao();
-			agend.Run();
+			dispose();
+			try {
+				AgendReuniao agend = new AgendReuniao();
+				agend.Run();
+			}
+			catch(ParseException exp) {
+				JOptionPane.showMessageDialog(null, "Preencha as Datas Corretamente DD/MM/YYYY", "Aviso", JOptionPane.WARNING_MESSAGE);
+			}
+		}
+		else if (e.getSource() == CadastroS) {
+			CadSalas cadS = new CadSalas();
+			cadS.Run();
 		}
 		else if (e.getSource() == PesquisarR) {
-			JOptionPane.showMessageDialog(null, "Keep Calm, is under Developments ");
+			dispose();
+			try {
+				ConsultaR c = new ConsultaR();
+				c.Run();
+			}
+			catch (ParseException exp) {
+				JOptionPane.showMessageDialog(null, "Preencha as Datas Corretamente DD/MM/YYYY", "Aviso", JOptionPane.WARNING_MESSAGE);
+			}
 		}
 		else if (e.getSource() == MeuPerfil) {
-			JOptionPane.showMessageDialog(null, "Keep Calm, is under Developments ");
+			Perfil p = new Perfil();
+			p.Run();
+		}
+		else if (e.getSource() == Logoff) {
+			try {
+				CadUsuario c = new CadUsuario();
+				CadSalas cs = new CadSalas();
+				c.dispose();
+				cs.dispose();				
+			}
+			catch (ParseException exp) {
+				JOptionPane.showMessageDialog(null, "Preencha a Data Corretamente DD/MM/YYYY", "Aviso", JOptionPane.WARNING_MESSAGE);
+			}
+			WinLogin w = new  WinLogin();
+			w.Run();
+		}
+		else if(e.getSource()==CadastroP) {
+			Participantes p = new Participantes();
+			p.Run();
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "Keep Calm, is under Developments ");
+			System.exit(EXIT_ON_CLOSE);
 		}
 	}
 
-	
 }
 
 

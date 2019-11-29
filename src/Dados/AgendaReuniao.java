@@ -1,5 +1,6 @@
 package Dados;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,12 +12,15 @@ public class AgendaReuniao {
 	private String dtReuniao;
 	private String Assunto;
 	private String Setor;
+	private String Sala;
 	private String AP;
-	public AgendaReuniao(String dtAgendaR, String DtReuniao, String assunto, String setor, String aP) {
+		
+	public AgendaReuniao(String dtAgendaR, String DtReuniao, String assunto, String setor, String sala, String aP) {
 		dtAgentamento = dtAgendaR;
 		dtReuniao = DtReuniao;
 		Assunto = assunto;
 		Setor = setor;
+		Sala = sala;
 		AP = aP;
 	}
 	
@@ -46,6 +50,12 @@ public class AgendaReuniao {
 	public void setSetor(String setor) {
 		Setor = setor;
 	}
+	public String getSala() {
+		return Sala;
+	}
+	public void setSala(String sala) {
+		Sala = sala;
+	}
 	public String getAP() {
 		return AP;
 	}
@@ -53,28 +63,50 @@ public class AgendaReuniao {
 		AP = aP;
 	}
 	
-	public void gravarDadosR() {
-				
+	public void gravarDadosR() {	
+		
 		try {
-			String NmR = Assunto + " " + dtReuniao;
+			String NmR = dtReuniao;
+			File diretorio = new File("./Dados/C Reunioes/"+ NmR +".txt");
 			
-			FileWriter caminho = new FileWriter("/home/ds/Documents/C Reuniões/"+ NmR +".txt");
-			PrintWriter armazenar = new PrintWriter(caminho);
-			armazenar.println("Data de Agendamento: " + dtAgentamento);
-			armazenar.println("Data de Reunião: " + dtReuniao);
-			armazenar.println("Assunto: " + Assunto);
-			armazenar.println("Setor: " + Setor);
-			armazenar.println("Atas / Pautas:");
-			armazenar.println(AP);
-			armazenar.flush();
-			armazenar.close();
+			if (diretorio.exists()) {
+				
+				FileWriter Existe = new FileWriter(diretorio,true);
+				PrintWriter armazenar = new PrintWriter(Existe);
+				armazenar.println("Data de Agendamento: " + dtAgentamento);
+				armazenar.println("Data de Reunião: " + dtReuniao);
+				armazenar.println("Assunto: " + Assunto);
+				armazenar.println("Setor: " + Setor);
+				armazenar.println("Sala: " + Sala);
+				armazenar.println("Atas / Pautas:");
+				armazenar.println(""+AP);
+				armazenar.flush();
+				armazenar.close();
 			
+			}
+			else {
+				
+				FileWriter NExiste = new FileWriter(diretorio);
+				PrintWriter armazenar2 = new PrintWriter(NExiste);
+				armazenar2.println();
+				armazenar2.println("	Data de Agendamento: " + dtAgentamento);
+				armazenar2.println("	Data de Reunião: " + dtReuniao);
+				armazenar2.println("	Assunto: " + Assunto);
+				armazenar2.println("	Setor: " + Setor);
+				armazenar2.println("	Sala: " + Sala);
+				armazenar2.println("	Atas / Pautas:");
+				armazenar2.println("	"+ AP);
+				armazenar2.println();
+				armazenar2.println("-----------------------------------------------------------------------------");
+				armazenar2.println();
+				armazenar2.flush();
+				armazenar2.close();
+			}
 			JOptionPane.showMessageDialog(null, "Reunião Agendada" , "Sucesso" , JOptionPane.INFORMATION_MESSAGE);
 		}
 		catch(IOException e) {
 			JOptionPane.showMessageDialog(null, "Error: diretorio não localizado" , "Error" , JOptionPane.ERROR_MESSAGE);
 		}
-		
 	}
-		
+
 }
