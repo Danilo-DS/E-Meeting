@@ -91,7 +91,7 @@ public class WinLogin extends JFrame implements ActionListener{
 			v.VLogin();
 			
 			tPass.setText("");
-	
+			dispose();
 		}
 		else if (e.getSource() == bEsqueci) {
 			JOptionPane.showMessageDialog(null, "Keep Calm","Wait" , JOptionPane.PLAIN_MESSAGE);

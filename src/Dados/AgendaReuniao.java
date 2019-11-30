@@ -14,14 +14,16 @@ public class AgendaReuniao {
 	private String Setor;
 	private String Sala;
 	private String AP;
+	private String Status;
 		
-	public AgendaReuniao(String dtAgendaR, String DtReuniao, String assunto, String setor, String sala, String aP) {
+	public AgendaReuniao(String dtAgendaR, String DtReuniao, String assunto, String setor, String sala, String aP, String status) {
 		dtAgentamento = dtAgendaR;
 		dtReuniao = DtReuniao;
 		Assunto = assunto;
 		Setor = setor;
 		Sala = sala;
 		AP = aP;
+		Status = status;
 	}
 	
 	public AgendaReuniao() {}
@@ -62,16 +64,32 @@ public class AgendaReuniao {
 	public void setAP(String aP) {
 		AP = aP;
 	}
+	public String getStatus() {
+		return Status;
+	}
+	public void setStatus(String status) {
+		Status = status;
+	}
+	
 	
 	public void gravarDadosR() {	
 		
 		try {
 			String NmR = dtReuniao;
+			File caminho = null;
 			File diretorio = new File("./Dados/C Reunioes/"+ NmR +".txt");
+			File diretorio2 = new File("./Dados/C Reunioes/Privates/"+ NmR +".txt");
+			
+			if (Status.equals("Pública")) {
+				caminho = diretorio;
+			}
+			else {
+				caminho = diretorio2;
+			}
 			
 			if (diretorio.exists()) {
 				
-				FileWriter Existe = new FileWriter(diretorio,true);
+				FileWriter Existe = new FileWriter(caminho,true);
 				PrintWriter armazenar = new PrintWriter(Existe);
 				armazenar.println("Data de Agendamento: " + dtAgentamento);
 				armazenar.println("Data de ReuniÃ£o: " + dtReuniao);

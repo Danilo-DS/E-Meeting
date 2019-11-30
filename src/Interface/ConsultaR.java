@@ -11,10 +11,13 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,7 +49,9 @@ public class ConsultaR extends JFrame implements ActionListener{
 	JButton Pesquisar = new JButton("Pesquisar");
 	JButton Limpar = new JButton("Limpar");
 	JButton Editar = new JButton("Editar Reunião");
-	JButton Participar = new JButton("Participar");
+	JButton Salvar = new JButton("Atualizar Reunião");
+	
+	JComboBox<String> Status = new JComboBox<String>();
 	
 	public ConsultaR() throws ParseException{
 		//JFT Busca
@@ -74,14 +79,26 @@ public class ConsultaR extends JFrame implements ActionListener{
 		add(Busca,gbl);
 		ConfigT(Coluna, 1);
 		Pesquisar.addActionListener(this);
-		add(Pesquisar,gbl);		
+		add(Pesquisar,gbl);	
+		
+		ConfigT(linha, 1);
+		Status.addItem("Publico");
+		Status.addItem("Privado");
+		add(Status,gbl);
+		
 		
 		ConfigT(linha, 3);
 		add(barra,gbl);
+		
 		ConfigT(linha, 1);
-		add(Participar,gbl);
-		ConfigT(Coluna, 1);
+		Editar.addActionListener(this);
 		add(Editar,gbl);
+		
+		ConfigT(Coluna, 1);
+		Salvar.setVisible(false);
+		Salvar.addActionListener(this);
+		add(Salvar,gbl);
+		
 		ConfigT(Coluna, 1);
 		Limpar.addActionListener(this);
 		add(Limpar,gbl);
@@ -136,6 +153,27 @@ public class ConsultaR extends JFrame implements ActionListener{
 		else if(e.getSource()== Limpar){
 			Busca.setText("");
 			Exibir.setText("");
+		}
+		else if(e.getSource()==Editar) {
+			Exibir.setEditable(true);
+			Salvar.setVisible(true);			
+		}
+		else if (e.getSource()==Salvar) {
+			try {
+			File caminho = new File("./Dados/C Reunioes/"+Busca.getText()+".txt");
+			if (caminho.exists()){
+				PrintWriter atualizar = new PrintWriter(new FileWriter(caminho));
+				atualizar.println(Exibir.getText());
+				atualizar.flush();
+				atualizar.close();
+				JOptionPane.showMessageDialog(null, "Reunião Atualizada com Sucesso");
+				Exibir.setEditable(false);
+				Salvar.setVisible(false);
+			}
+			}
+			catch (IOException exp) {
+				JOptionPane.showMessageDialog(null, "Error: Erro insperado!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 	

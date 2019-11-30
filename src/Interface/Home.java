@@ -29,8 +29,8 @@ public class Home extends JFrame implements ActionListener{
 	JMenuBar Menu = new JMenuBar();
 	
 	//Menu(Perfil)
-	JMenu Perfil = new JMenu("Perfil");
-	JMenuItem MeuPerfil = new JMenuItem("Ver Perfil");
+	JMenu M = new JMenu("Menu");
+	//JMenuItem MeuPerfil = new JMenuItem("Ver");
 	JMenuItem Logoff = new JMenuItem("Logoff");
 	JMenuItem Sair = new JMenuItem("Sair");
 	
@@ -55,7 +55,6 @@ public class Home extends JFrame implements ActionListener{
 	JScrollPane barraT = new JScrollPane(feed);
 	
 	//Botão
-	
 	JButton Participar = new JButton("Participar");
 
 	public Home() {
@@ -81,11 +80,11 @@ public class Home extends JFrame implements ActionListener{
 		setVisible(true);
 		
 		//Menu (Perfil)
-		Perfil.add(MeuPerfil);
-		MeuPerfil.addActionListener(this);
-		Perfil.add(Logoff);
+		//M.add(MeuPerfil);
+		//MeuPerfil.addActionListener(this);
+		M.add(Logoff);
 		Logoff.addActionListener(this);
-		Perfil.add(Sair);
+		M.add(Sair);
 		Sair.addActionListener(this);
 		
 		//Menu (Cadastro)
@@ -105,7 +104,7 @@ public class Home extends JFrame implements ActionListener{
 		//DiscMenuCon.add(PesquisarU);
 		
 		//Adionando os Menu a Frame
-		Menu.add(Perfil);
+		Menu.add(M);
 		Menu.add(DiscMenuCad);
 		Menu.add(DiscMenuCon);
 		
@@ -128,6 +127,7 @@ public class Home extends JFrame implements ActionListener{
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent we) {
+				dispose();
 				WinLogin w = new WinLogin();
 				w.Run();
 			}
@@ -180,7 +180,6 @@ public class Home extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == CadastroU) {
-			dispose();
 			try {
 			CadUsuario cad = new CadUsuario();
 			cad.Run();
@@ -213,11 +212,11 @@ public class Home extends JFrame implements ActionListener{
 				JOptionPane.showMessageDialog(null, "Preencha as Datas Corretamente DD/MM/YYYY", "Aviso", JOptionPane.WARNING_MESSAGE);
 			}
 		}
-		else if (e.getSource() == MeuPerfil) {
-			Perfil p = new Perfil();
-			p.Run();
+		else if (e.getSource() == Participar) {
+			JOptionPane.showMessageDialog(null, "Keep Calm","Wait" , JOptionPane.PLAIN_MESSAGE);
 		}
 		else if (e.getSource() == Logoff) {
+			dispose();
 			try {
 				CadUsuario c = new CadUsuario();
 				CadSalas cs = new CadSalas();
@@ -231,6 +230,7 @@ public class Home extends JFrame implements ActionListener{
 			w.Run();
 		}
 		else if(e.getSource()==CadastroP) {
+			dispose();
 			Participantes p = new Participantes();
 			p.Run();
 		}

@@ -86,7 +86,5 @@ public class CadSalas extends JFrame implements ActionListener {
 		}
 		
 	}
-	public static void main(String[] args) {
-		new CadSalas();
-	}
+
 }

@@ -34,7 +34,6 @@ public class AgendReuniao extends JFrame implements ActionListener{
 	GridBagConstraints gbl = null;
 	
 	//Campos
-	//SimpleDateFormat mask = new SimpleDateFormat("dd/MM/yyyy");
 	JFormattedTextField dtAgendamento = new JFormattedTextField(new MaskFormatter("##-##-####"));
 	JFormattedTextField dtReuniao = new JFormattedTextField(new MaskFormatter("##-##-####"));
 	JTextField dtAgendamento1 = new JTextField(15);
@@ -44,6 +43,7 @@ public class AgendReuniao extends JFrame implements ActionListener{
 	//Seletores
 	JComboBox<String> SetorR = new JComboBox<String>();
 	JComboBox<String> Salas = new JComboBox<String>();
+	JComboBox<String> Status = new JComboBox<String>();
 	
 	//Caixa de Texto
 	JTextArea AP = new JTextArea();
@@ -112,6 +112,13 @@ public class AgendReuniao extends JFrame implements ActionListener{
 		CarregarSalas();
 		add(Salas, gbl);
 		
+		//Status Reunião
+		ConfigT(Linha, 1);
+		add(newDiscricao("Tipo da Reunião:"));
+		Status.addItem("Pública");
+		Status.addItem("Privada");
+		ConfigT(Coluna, 1);
+		add(Status, gbl);
 		
 		//Palta / Ata
 		ConfigT(Linha,1);
@@ -144,7 +151,7 @@ public class AgendReuniao extends JFrame implements ActionListener{
 		
 	public void  CarregarSalas() {
 		try {
-			BufferedReader salas = new BufferedReader(new FileReader("./Salas Gerais.txt"));
+			BufferedReader salas = new BufferedReader(new FileReader("./Dados/Salas Gerais.txt"));
 			String atualizar = "";
 			
 			while (atualizar != null) {
@@ -184,6 +191,7 @@ public class AgendReuniao extends JFrame implements ActionListener{
 			ar.setSetor(String.valueOf(SetorR.getSelectedItem()));
 			ar.setSala(String.valueOf(Salas.getSelectedItem()));
 			ar.setAP(AP.getText());
+			ar.setStatus(String.valueOf(Status.getSelectedItem()));
 			
 			ar.gravarDadosR();
 			

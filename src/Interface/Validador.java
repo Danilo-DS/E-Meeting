@@ -81,18 +81,18 @@ public class Validador{
 				senha.close();
 				tipoUser.close();
 			}
-			
 		}
 		catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Usuário ou Senha Inválido", "Ops!", JOptionPane.ERROR_MESSAGE);
+			
 		}
 		if (cont == 5) { 
 			if (P.equals(lerP)) {
 				if (lerT.equals("Tipo: Usuário")){
-					WinLogin w = new WinLogin();
-					w.dispose();
-					
+										
 					JOptionPane.showMessageDialog(null, "Login Efetuado com Sucesso");
+					//WinLogin w = new WinLogin();
+					//w.dispose();
 					Home h = new Home();
 					h.CadastroU.setEnabled(false);
 					h.CadastroS.setEnabled(false);
@@ -100,8 +100,8 @@ public class Validador{
 					h.Run();
 				}
 				else if (lerT.equals("Tipo: Gestor de Recursos")) {
-					WinLogin w = new WinLogin();
-					w.dispose();
+					//WinLogin w = new WinLogin();
+					//w.dispose();
 					
 					JOptionPane.showMessageDialog(null, "Login Efetuado com Sucesso");
 					Home h = new Home();
@@ -112,8 +112,8 @@ public class Validador{
 					h.Run();
 				}
 				else {
-					WinLogin w = new WinLogin();
-					w.dispose();
+					//WinLogin w = new WinLogin();
+					//w.dispose();
 					
 					JOptionPane.showMessageDialog(null, "Login Efetuado com Sucesso");
 					Home h = new Home();
@@ -121,12 +121,19 @@ public class Validador{
 				}
 			}
 			else {
+				ChamaLogin();
 				JOptionPane.showMessageDialog(null, "Usuário ou Senha Inválido", "Ops!", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		else {
 			return;
 		}
+	}
+	
+	public void ChamaLogin() {
+		WinLogin w = new WinLogin();
+		w.tLogin.setText(Login);
+		w.Run();
 	}
 	
 	public void CriarPerfil() {
@@ -169,6 +176,8 @@ public class Validador{
 		}
 	}
 	
+	
+	//Problemas Verificar
 	public void ValidarL(String tipo) {
 		
 		String l = Login;

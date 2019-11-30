@@ -41,7 +41,7 @@ public class Perfil extends JFrame{
 		bg.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		
 		//TxArea
-		load.setBounds(285, 25, 200, 150);
+		load.setBounds(275, 25, 200, 150);
 		load.setBackground(Color.lightGray);
 		load.setEditable(false);
 		load.setLineWrap(true);
@@ -55,18 +55,14 @@ public class Perfil extends JFrame{
 		setVisible(true);
 		
 		add(bg);
-		CarregarPerfil();
 		add(load);
 	}
 	
-	public String CarregarPerfil() {
-		WinLogin w = new WinLogin();
-		String user = w.tLogin.getText();
-
+	
+	public String CarregarPerfil(String user) {
 		load.setText("");
 		String Infor = "";
 
-		System.out.println(user);
 		try {
 			BufferedReader lerInfor = new BufferedReader(new FileReader("./Dados/C Users/Perfil/" + user + ".txt"));
 			Infor = lerInfor.readLine();
@@ -86,8 +82,6 @@ public class Perfil extends JFrame{
 		return Infor;
 	}
 	
-	public void Run() {
-		
-	}
+	public void Run() {	}
 	
 }

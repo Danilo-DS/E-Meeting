@@ -36,7 +36,7 @@ public class Participante {
 			String NmArq = dataR;
 			
 			File caminho = new File("./Dados/Participantes/"+NmArq+".txt");
-			FileWriter f = new FileWriter(caminho);
+			FileWriter f = new FileWriter(caminho, true);
 			PrintWriter armazenar = new PrintWriter(f);
 			
 				armazenar.println("Nome: " + this.Nome + " " + dataR);
